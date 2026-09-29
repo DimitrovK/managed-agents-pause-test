@@ -1,0 +1,8 @@
+name: pause-test
+agent: opencode
+size: mars-2vcpu-4gb
+idle_timeout: 30m
+env:
+  HARNESS_INFERENCE_MODEL: deepseek-v4-pro
+secrets:
+  HARNESS_INFERENCE_API_KEY: ${DO_MODEL_ACCESS_KEY}

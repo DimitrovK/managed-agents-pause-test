@@ -1,0 +1,10 @@
+name: locked-down
+agent: opencode
+size: mars-1vcpu-1gb
+idle_timeout: 15m
+egress:
+  - api.github.com
+env:
+  HARNESS_INFERENCE_MODEL: deepseek-v4-pro
+secrets:
+  HARNESS_INFERENCE_API_KEY: ${DO_MODEL_ACCESS_KEY}
