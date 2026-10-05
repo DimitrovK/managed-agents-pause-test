@@ -48,3 +48,29 @@ doctl harness-runtime resume <session-id>
 Total cost of everything here, four sessions including two forks: about 7 cents.
 
 MIT licensed.
+
+## Follow-up: checkpoint, fork three ways, roll back
+
+An agent built a small web app inside a session. I checkpointed it, forked it three ways
+from that checkpoint, gave each fork a different brief, and screenshotted all three through
+`doctl harness-runtime port-forward`. Then I deleted the parent's app, killed its web server,
+and rolled it back.
+
+![one checkpoint, three futures](images/forks/fig_forks.png)
+
+| | |
+|---|---|
+| agent builds the app | 91.6 s, 29,084 tokens |
+| checkpoint the running session | 25.2 s |
+| fork x3 from that checkpoint | 15.3 s |
+| roll back after deleting the app | 5.6 s |
+
+Every fork came up with the web server **already running, same PID 593**, and after the
+rollback the killed server was back at PID 593 too. The restored page was pixel-identical to
+the original except for 88 pixels in a CSS-animated status dot.
+
+Checkpoints belong to one session. Rolling a fork back to its parent's checkpoint fails with
+`checkpoint not found`, so checkpoint the fork itself if you want to undo inside it.
+
+![same prompt, different app](images/forks/fig_rerun.png)
+![timings](images/forks/fig_timings.png)
